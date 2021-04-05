@@ -22,6 +22,17 @@ session_start();
   $clienteDAO = new ClienteDAO();
   $clienteLista = $clienteDAO->getAll("nome","");
   $pedidos = "";
+  $nomeCliente = "";
+  $numPedido = "";
+  $data_inicial = "";
+  $data_final = "";
+
+  if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+    $nomeCliente = filter_input(INPUT_POST, 'idCliente');
+    $numPedido = filter_input(INPUT_POST, 'numPedido');
+    $data_inicial = filter_input(INPUT_POST, 'data_inicial');
+    $data_final = filter_input(INPUT_POST, 'data_final');
+  }
 
   if (isset($_POST['btnPesquisar']))
   {
@@ -51,16 +62,16 @@ session_start();
         <div class="row">
             <div class="form-group col-sm-3">
                 <label>Data Inicial</label>
-                <input type="date" id="data_inicial" name="data_inicial" class="form-control" value="<?php echo date('Y-m-d', strtotime('-5 days')) ?>">
+                <input type="date" id="data_inicial" name="data_inicial" class="form-control" value="<?=$data_inicial ?>">
             </div>
 
             <div class="form-group col-sm-3">
                 <label class="datafinal">Data Final</label>
-                <input type="date" id="data_final" name="data_final" class="form-control" value="<?php echo date('Y-m-d') ?>">
+                <input type="date" id="data_final" name="data_final" class="form-control" value="<?=$data_final ?>">
             </div>
 
             <div class="form-group col-sm-4">
-            <label>Clientes</label>
+            <label>Clientes:<?=" ".$nomeCliente;?></label>
                 <select name="idCliente" id="idCliente" class="form-control">
                 <option value=""></option>
                     <?php
@@ -74,7 +85,7 @@ session_start();
 
             <div class="form-group col-sm-2">
                 <label class="datafinal">Nro Pedido</label>
-                <input type="text" id="numPedido" name="numPedido" class="form-control" value="">
+                <input type="text" id="numPedido" name="numPedido" class="form-control" value="<?=$numPedido?>">
             </div>
         </div>
         <button type="submit" class="btn btn-primary mb-2" id="btnPesquisar" name="btnPesquisar">Pesquisar</button>

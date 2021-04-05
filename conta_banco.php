@@ -3,16 +3,14 @@
   header('Cache-Control: no cache');
   require_once 'security.php';
   require_once 'cabecalho.php';
-  require_once 'App/Models/ClienteModel.php';
-  require_once 'App/DAO/UsuarioDAO.php';
-  require_once 'App/DAO/ClienteDAO.php';
-use App\DAO\UsuarioDAO;
-use App\Models;
-use App\DAO\ClienteDAO;
-use App\Models\ClienteModel;
+  require_once 'App/Models/ContaBancoModel.php';
+  require_once 'App/DAO/ContaBancoDAO.php';
+// use App\Models;
+use App\DAO\ContaBancoDAO;
+use App\Models\ContaBancoModel;
 
-$clienteDao = new ClienteDAO();
-$clientes = new ClienteModel();
+$clienteDAO = new ContaBancoDAO();
+$model = new ContaBancoModel();
 $texto = "";
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
@@ -20,9 +18,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 }
 
 if (isset($_POST['btnPesquisar']))
-  $clientes = $clienteDao->getAll($_POST['campos'], $_POST['texto']);
-
-
+  $model = $clienteDAO->getAll($_POST['campos'], $_POST['texto']);
 
 ?>
 <!DOCTYPE html>
@@ -35,21 +31,21 @@ if (isset($_POST['btnPesquisar']))
 <body>
 
 <div class="container">
-<h4>Clientes</h4>
-<form class="form-inline" id="cliente-form" action="cliente.php" method="post">
+<h4>Contas Bancárias</h4>
+<form class="form-inline" id="conta_banco-form" action="conta_banco.php" method="post">
   <div class="form-group mb-2">
     <label for="staticEmail2" class="sr-only">Campos</label>
     <select name="campos" id="campos" class="form-control">
-      <option value="nome">Nome</option>
-      <option value="cnpj">CNPJ</option>
-      <option value="fone">Telefone</option>
-      <option value="email">Email</option>
+      <option value="codigo">Código</option>
+      <option value="num_conta">Nro Conta</option>
+      <option value="agencia">Agência</option>
+      <option value="nome_banco">Banco</option>
     </select">
     <!-- <input type="text" readonly class="form-control-plaintext" id="staticEmail2" value="email@exemplo.com"> -->
   </div>
   <div class="form-group mx-sm-3 mb-2">
     <label for="inputPassword2" class="sr-only">Texto a pesquisar</label>
-    <input type="text" class="form-control" id="texto" name="texto" placeholder="Texto a Pesquisar" value="<?=$texto?>">
+    <input type="text" class="form-control" id="texto" name="texto" placeholder="Texto a Pesquisar", value="<?=$texto?>">
   </div>
   <button type="submit" class="btn btn-primary mb-2" id="btnPesquisar" name="btnPesquisar">Pesquisar</button>
 </form>
@@ -60,29 +56,25 @@ if (isset($_POST['btnPesquisar']))
     <table class="table">
       <thead class="thead-dark">
         <tr>
-          <th>Nome</th>
-          <!-- <th class="hidden-xs">CNPJ</th> -->
-          <!-- <th class="hidden-xs">Telefone</th>
-          <th class="hidden-xs">Email</th> -->
-          <th>Telefone</th>
-          <th>Email</th>
+          <th>Código</th>
+          <th>Nro Conta</th>
+          <th>Agência</th>
+          <th>Banco</th>
           <th>Ação</th>
         </tr>
       </thead>
       <tbody>
       <?php
-        foreach($clientes as $cliente)
+        foreach($model as $item)
         {?>
           <tr>
-          <td > <?php echo $cliente->nome ?></td>
-          <!-- <td class="hidden-xs"> <?php echo $cliente->cnpj ?></td> -->
-          <td> <?php echo $cliente->fone ?></td>
-          <td> <?php echo $cliente->email ?></td>
-          <!-- <td class="hidden-xs"> <?php echo $cliente->fone ?></td>
-          <td class="hidden-xs"> <?php echo $cliente->email ?></td> -->
+          <td > <?php echo $item->codigo ?></td>
+          <td> <?php echo $item->num_conta ?></td>
+          <!-- <td class="hidden-xs"> <?php echo $item->num_conta ?></td> -->
+          <td> <?php echo $item->agencia ?></td>
+          <td> <?php echo $item->nome_banco ?></td>
 
-          <td ><a href='cliente_detalhe.php?id= <?php echo $cliente->id ?>'><button class='btn primary btn-primary'>Detalhes</button></a></td>
-          <!-- <td><a href='transportadora_editar.php?id={$transportadora->id}'>Detalhes</a></td> -->
+          <td ><a href='conta_banco_detalhe.php?id= <?php echo $item->id ?>'><button class='btn primary btn-primary'>Detalhes</button></a></td>
           </tr>
         <?php } ?>
       </tbody>

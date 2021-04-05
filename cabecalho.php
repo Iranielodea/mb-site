@@ -30,6 +30,7 @@
     <div class="dropdown-menu">
       <a class="dropdown-item" href="cliente.php">Clientes</a>
       <a class="dropdown-item" href="transportadora.php">Transportadoras</a>
+      <a class="dropdown-item" href="conta_banco.php">Contas Bancárias</a>
       <!-- <a class="dropdown-item" href="#">Algo mais aqui</a> -->
       <div class="dropdown-divider"></div>
       <a class="dropdown-item" href="login.php">Sair</a>
@@ -40,6 +41,18 @@
     <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">Faturamento</a>
     <div class="dropdown-menu">
       <a class="dropdown-item" href="pedido.php">Pedidos</a>
+      <a class="dropdown-item" href="carga.php">Cargas</a>
+      <!-- <a class="dropdown-item" href="#">Outra ação</a>
+      <a class="dropdown-item" href="#">Algo mais aqui</a>
+      <div class="dropdown-divider"></div>
+      <a class="dropdown-item" href="#">Link isolado</a> -->
+    </div>
+  </li>
+  <li class="nav-item dropdown">
+    <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">Financeiro</a>
+    <div class="dropdown-menu">
+      <a class="dropdown-item" href="contas_pagar.php">Contas a Pagar</a>
+      <a class="dropdown-item" href="contas_receber.php">Contas a Receber</a>
       <!-- <a class="dropdown-item" href="#">Outra ação</a>
       <a class="dropdown-item" href="#">Algo mais aqui</a>
       <div class="dropdown-divider"></div>

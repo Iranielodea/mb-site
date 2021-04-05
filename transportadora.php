@@ -18,11 +18,14 @@ use App\Models\TransportadoraModel;
 
 $tansportadoraDao = new TransportadoraDAO();
 $transportadoras = new TransportadoraModel();
+$texto = "";
+
+if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+  $texto = filter_input(INPUT_POST, 'texto');    
+}
 
 if (isset($_POST['btnPesquisar']))
   $transportadoras = $tansportadoraDao->getAll($_POST['campos'], $_POST['texto']);
-
-
 
 ?>
 <!DOCTYPE html>
@@ -48,7 +51,7 @@ if (isset($_POST['btnPesquisar']))
   </div>
   <div class="form-group mx-sm-3 mb-2">
     <label for="inputPassword2" class="sr-only">Texto a pesquisar</label>
-    <input type="text" class="form-control" id="texto" name="texto" placeholder="Texto a Pesquisar">
+    <input type="text" class="form-control" id="texto" name="texto" placeholder="Texto a Pesquisar" value="<?=$texto?>">
   </div>
   <button type="submit" class="btn btn-primary mb-2" id="btnPesquisar" name="btnPesquisar">Pesquisar</button>
 </form>
