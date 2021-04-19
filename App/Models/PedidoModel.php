@@ -2,6 +2,8 @@
 
 namespace App\Models;
 
+require_once 'App/Models/Funcoes.php';
+
 use Exception;
 
 class PedidoModel
@@ -272,11 +274,11 @@ class PedidoModel
 
     private function formatarData($data)
     {
-        return date('d/m/Y', strtotime($data));
+        return Funcoes::formatarData($data);
     }
 
     private function formatarValor($valor, $casas)
     {
-        return number_format($valor, $casas,",", ".");
+        return Funcoes::formatarValor($valor, $casas);
     }
 }

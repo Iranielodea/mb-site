@@ -2,6 +2,8 @@
 
 namespace App\Models;
 
+require_once 'App/Models/Funcoes.php';
+
 class ContasModel
 {
     private $id;
@@ -121,7 +123,7 @@ class ContasModel
 
     public function getDataPago()
     {
-        return $this->dataPago;
+        return $this->formatarData($this->dataPago);
     }
 
     public function setDataPago($value)
@@ -244,12 +246,12 @@ class ContasModel
 
     private function formatarValor($valor, $casas)
     {
-        return number_format($valor, $casas,",", ".");
+        return Funcoes::formatarValor($valor, $casas);
     }
 
     private function formatarData($data)
     {
-        return date('d/m/Y', strtotime($data));
+        return Funcoes::formatarData($data);
     }
 
     public function getTotalPagar()
@@ -274,7 +276,7 @@ class ContasModel
 
     public function getSaldo()
     {
-        return $this->formatarValor($this->totalPagar - $this->totalPago,2);
+        return $this->formatarValor($this->totalPagar - $this->totalPago, 2);
     }
 
     public function setSaldo($saldo)

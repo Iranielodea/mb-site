@@ -1,48 +1,54 @@
 <?php
 
-use App\DAO\PedidoDAO;
-use App\Models\PedidoModel;
-use App\Models\PedidoFiltro;
+use App\DAO\CargaDAO;
+use App\Models\CargaModel;
+use App\Models\CargaFiltroModel;
 use App\DAO\ClienteDAO;
+use App\DAO\FornecedorDAO;
 
 session_start();
   header('Cache-Control: no cache');
   require_once 'security.php';
 
   require_once 'cabecalho.php';
-  require_once 'pedido.php';
-  require_once 'App/Models/PedidoModel.php';
-  require_once 'App/DAO/PedidoDAO.php';
-  require_once 'App/Models/PedidoFiltro.php';
+  require_once 'carga.php';
+  require_once 'App/Models/CargaModel.php';
+  require_once 'App/DAO/CargaDAO.php';
+  require_once 'App/Models/CargaFiltroModel.php';
   require_once 'App/DAO/ClienteDAO.php';
+  require_once 'App/DAO/FornecedorDAO.php';
 
-  $pedidoDao = new PedidoDAO();
-  $model = new PedidoModel();
+  $cargaDAO = new cargaDAO();
+  $model = new CargaModel();
 
   $clienteDAO = new ClienteDAO();
   $clienteLista = $clienteDAO->getAll("nome","");
-  $pedidos = "";
-  $numPedido = "";
+
+  $fornecedorDAO = new FornecedorDAO();
+  $fornecedorLista = $fornecedorDAO->getAll("nome", "");
+
+  $cargas = "";
   $data_inicial = "";
   $data_final = "";
-  $codCliente = "";
+  $codCliente = 0;
+  $codFornecedor = 0;
 
   if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $codCliente = filter_input(INPUT_POST, 'idCliente');
-    $numPedido = filter_input(INPUT_POST, 'numPedido');
+    $codFornecedor = filter_input(INPUT_POST, 'idFornecedor');
     $data_inicial = filter_input(INPUT_POST, 'data_inicial');
     $data_final = filter_input(INPUT_POST, 'data_final');
   }
 
   if (isset($_POST['btnPesquisar']))
   {
-      $filtro = new PedidoFiltro();
+      $filtro = new CargaFiltroModel();
       $filtro->dataInicial = $_POST['data_inicial'];
       $filtro->dataFinal = $_POST['data_final'];
-      $filtro->nomeCliente = $_POST['idCliente'];
-      $filtro->numPedido = $_POST['numPedido'];
+      $filtro->codCliente = $_POST['idCliente'];
+      $filtro->codFornecedor = $_POST['idFornecedor'];
 
-      $pedidos = $pedidoDao->getAll($filtro);
+      $cargas = $cargaDAO->getAll($filtro);
   }
 
 ?>
@@ -57,8 +63,8 @@ session_start();
 <body>
 
 <div class="container-fluido">
-    <h4>Pedidos</h4>
-    <form id="pedido-form" action="pedido.php" method="post">
+    <h4>cargas</h4>
+    <form id="pedido-form" action="carga.php" method="post">
         <div class="row">
             <div class="form-group col-sm-3">
                 <label>Data Inicial</label>
@@ -70,25 +76,36 @@ session_start();
                 <input type="date" id="data_final" name="data_final" class="form-control" value="<?=$data_final ?>">
             </div>
 
-            <div class="form-group col-sm-4">
+            <div class="form-group col-sm-3">
             <label >Clientes</label>
                 <select name="idCliente" id="idCliente" class="form-control">
                 <option value=""></option>
                     <?php
                         foreach($clienteLista as $cli)
                         {
-                          if ($codCliente == $cli->nome)
-                            echo '<option value=' .$cli->nome .' selected="selected"'.'>'. $cli->nome .'</option>';
+                          if ($codCliente == $cli->codigo)
+                            echo '<option value=' .$cli->codigo .' selected="selected"'.'>'. $cli->nome .'</option>';
                           else
-                            echo '"<option value="' .$cli->nome .'">'. $cli->nome .'</option>"';
+                            echo '"<option value="' .$cli->codigo .'">'. $cli->nome .'</option>"';
                         }
                     ?>;
                 </select>
             </div>
 
-            <div class="form-group col-sm-2">
-                <label class="datafinal">Nro Pedido</label>
-                <input type="text" id="numPedido" name="numPedido" class="form-control" value="<?=$numPedido?>">
+            <div class="form-group col-sm-3">
+            <label >Fornecedores</label>
+                <select name="idFornecedor" id="idFornecedor" class="form-control">
+                <option value=""></option>
+                    <?php
+                        foreach($fornecedorLista as $fornecedor)
+                        {
+                          if ($codFornecedor == $fornecedor->codigo)
+                            echo '<option value=' .$fornecedor->codigo .' selected="selected"'.'>'. $fornecedor->nome .'</option>';
+                          else
+                            echo '"<option value="' .$fornecedor->codigo .'">'. $fornecedor->nome .'</option>"';
+                        }
+                    ?>;
+                </select>
             </div>
         </div>
         <button type="submit" class="btn btn-primary mb-2" id="btnPesquisar" name="btnPesquisar">Pesquisar</button>
@@ -100,23 +117,28 @@ session_start();
     <table class="table">
       <thead class="thead-dark">
         <tr>
-          <th>Nro Pedido</th>
+          <th>Nro Carga</th>
           <th class="hidden-xs">Data</th>
           <th class="hidden-xs">Cliente</th>
+          <th class="hidden-xs" align="right">Valor Pedido</th>
           <th>Ação</th>
         </tr>
       </thead>
       <tbody>
       <?php
-        if ($pedidos != null)
+        if ($cargas != null)
         {
-            foreach($pedidos as $ped)
-            {?>
+            foreach($cargas as $carga)
+            {
+              $model->setValorPedido($carga->valor_pedido);
+              ?>
+            
             <tr>
-                <td > <?php echo $ped->num_pedido ?></td>
-                <td class="hidden-xs"> <?php echo date('d/m/Y', strtotime($ped->data)) ?></td>
-                <td class="hidden-xs"> <?php echo $ped->nome_cliente ?></td>
-                <td ><a href='pedido_detalhe.php?id= <?php echo $ped->id ?>'><button class='btn primary btn-primary'>Detalhes</button></a></td>
+                <td > <?php echo $carga->num_carga ?></td>
+                <td class="hidden-xs"> <?php echo date('d/m/Y', strtotime($carga->data)) ?></td>
+                <td > <?php echo $carga->nome_cliente ?></td>
+                <td class="hidden-xs" align="right"> <?php echo $model->getValorPedido() ?></td>
+                <td ><a href='carga_detalhe.php?id= <?php echo $carga->id ?>'><button class='btn primary btn-primary'>Detalhes</button></a></td>
             </tr>
             <?php 
             }

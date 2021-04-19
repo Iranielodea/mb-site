@@ -2,6 +2,8 @@
 
 namespace App\Models;
 
+require_once 'App/Models/Funcoes.php';
+
 class PedidoItemModel
 {
     private $id;
@@ -150,6 +152,6 @@ class PedidoItemModel
 
     private function formatarValor($valor, $casas)
     {
-        return number_format($valor, $casas,",", ".");
+        return Funcoes::formatarValor($valor, $casas);
     }
 }

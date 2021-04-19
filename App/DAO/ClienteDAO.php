@@ -13,7 +13,7 @@ class ClienteDAO extends Crud
     public function getAll($campo, $texto)
     {
         $texto = strtoupper($texto);
-        $sql = "SELECT id, nome, cnpj, insc_estadual, cpf, fone, email FROM $this->tabela";
+        $sql = "SELECT id, codigo, nome, cnpj, insc_estadual, cpf, fone, email FROM $this->tabela";
         //$sql = "SELECT * FROM $this->tabela";
         $sql = $sql . " WHERE {$campo} LIKE '%{$texto}%'";
         $sql = $sql . " ORDER BY {$campo}";

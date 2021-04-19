@@ -34,6 +34,7 @@ use App\Models\ContasModel;
   $contaModel->setValorPago($contasResultado->valor_pago);
   $contaModel->setSituacao($contasResultado->situacao);
   $contaModel->setNomeFornecedor($contasResultado->nome_fornecedor);
+  $contaModel->setDataPago($contasResultado->data_pago);
   $contaBancoModel->setNumConta($contasResultado->num_conta);
 
 ?>
