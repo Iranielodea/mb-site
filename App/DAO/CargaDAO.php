@@ -21,10 +21,10 @@ class CargaDAO extends Crud
         if ($cargaFiltroModel->dataFinal != null)
             $sql = $sql . " AND data <= '{$cargaFiltroModel->dataFinal}'";
         
-        if ($cargaFiltroModel->codCliente != null)
+        if ($cargaFiltroModel->codCliente != 0)
             $sql = $sql . " AND cod_cliente = '{$cargaFiltroModel->codCliente}'";
 
-        if ($cargaFiltroModel->codFornecedor != null)
+        if ($cargaFiltroModel->codFornecedor != 0)
             $sql = $sql . " AND cod_For = '{$cargaFiltroModel->codFornecedor}'";
 
         $sql = $sql . " ORDER BY data, num_carga";

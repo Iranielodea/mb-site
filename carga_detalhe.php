@@ -24,6 +24,8 @@
     $cargaModel->setSaldo($model->saldo);
     $cargaModel->setDataNf($model->data_nf);
     $cargaModel->setValorCarrega($model->valor_carrega);
+    $cargaModel->setLetra($model->letra);
+    $cargaModel->setVisto($model->visto);
 ?>
 
 <!DOCTYPE html>
@@ -197,6 +199,6 @@
   ?>
   <script type="text/javascript" src="js/bootstrap.js"></script>
   <script type="text/javascript" src="js/jquery.js"></script>
-  <script type="text/javascript" src="js/bootstrap.minjs"></script>
+  <script type="text/javascript" src="js/bootstrap.minjs"></script>  
 </body>
 </html>

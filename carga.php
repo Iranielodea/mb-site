@@ -59,6 +59,7 @@ session_start();
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Menu Principal</title>
   <link rel="stylesheet" type="text/css" href="css/bootstrap.css">
+  <link rel="stylesheet" type="text/css" href="css/chosen.css">
 </head>
 <body>
 
@@ -78,8 +79,8 @@ session_start();
 
             <div class="form-group col-sm-3">
             <label >Clientes</label>
-                <select name="idCliente" id="idCliente" class="form-control">
-                <option value=""></option>
+                <select name="idCliente" id="idCliente" class="form-control escolher">
+                <option value="0">--Todos--</option>
                     <?php
                         foreach($clienteLista as $cli)
                         {
@@ -94,8 +95,8 @@ session_start();
 
             <div class="form-group col-sm-3">
             <label >Fornecedores</label>
-                <select name="idFornecedor" id="idFornecedor" class="form-control">
-                <option value=""></option>
+                <select name="idFornecedor" id="idFornecedor" class="form-control escolher">
+                <option value="0">--Todos--</option>
                     <?php
                         foreach($fornecedorLista as $fornecedor)
                         {
@@ -154,7 +155,18 @@ session_start();
 ?>
 </div>
 </body>
+
 <script type="text/javascript" src="js/bootstrap.js"></script>
 <script type="text/javascript" src="js/jquery.js"></script>
-<script type="text/javascript" src="js/bootstrap.minjs"></script>
+<script type="text/javascript" src="js/bootstrap.min.js"></script>
+<script type="text/javascript" src="js/chosen.jquery.js"></script>
+
+<script type="text/javascript">
+  $(document).ready( function ()
+  {
+    $('.escolher').chosen(); 
+  });
+
+</script>
+
 </html>

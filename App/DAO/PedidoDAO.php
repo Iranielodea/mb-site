@@ -23,7 +23,7 @@ class PedidoDAO extends Crud
         if ($pedidoFiltro->dataFinal != null)
             $sql = $sql . " AND data <= '{$pedidoFiltro->dataFinal}'";
         
-        if ($pedidoFiltro->nomeCliente != null)
+        if ($pedidoFiltro->nomeCliente != '0')
             $sql = $sql . " AND nome_cliente = '{$pedidoFiltro->nomeCliente}'";
 
         if ($pedidoFiltro->numPedido != null)

@@ -14,7 +14,7 @@
     <link href="css/bootstrap.min.css" rel="stylesheet">
 
     <!-- Estilos customizados para esse template -->
-    <link href="sticky-footer-navbar.css" rel="stylesheet">
+    <!-- <link href="sticky-footer-navbar.css" rel="stylesheet"> -->
   </head>
 
   <body class="d-flex flex-column h-100">

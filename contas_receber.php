@@ -52,15 +52,7 @@ use App\Models\ContasModel;
     $filtro->dataPagamentoFinal = $_POST['data_pag_final'];
     $filtro->pessoaId = $_POST['idCliente'];
 
-    $filtro->campoOrdem = "data_emissao, situacao DESC";
-    if ($filtro->dataEmissaoInicial != null || $filtro->dataEmissaoFinal != null)
-      $filtro->campoOrdem = "data_emissao, situacao DESC";
-
-    if ($filtro->dataVencimentoFinal != null || $filtro->dataVencimentoFinal != null)
-      $filtro->campoOrdem = "data_vencto, situacao DESC";
-    
-    if ($filtro->dataPagamentoInicial != null || $filtro->dataPagamentoFinal != null)
-      $filtro->campoOrdem = "data_pago, situacao DESC";
+    $filtro->campoOrdem = "situacao, data_pago DESC, data_vencto";
 
     $model = $contasDAO->getAll($filtro);
   }
@@ -72,6 +64,7 @@ use App\Models\ContasModel;
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Menu Principal</title>
   <link rel="stylesheet" type="text/css" href="css/bootstrap.css">
+  <link rel="stylesheet" type="text/css" href="css/chosen.css">
 </head>
 <body>
 
@@ -81,8 +74,8 @@ use App\Models\ContasModel;
         <div class="row">
             <div class="form-group col-sm-4">
               <label id="lblContato">Contato</label>
-                <select name="idCliente" id="idCliente" class="form-control" value="">
-                  <option value=""></option>
+                <select name="idCliente" id="idCliente" class="form-control escolher" value="">
+                  <option value="0">--Todos--</option>
                       <?php
                           foreach($clienteLista as $cli)
                           {
@@ -96,7 +89,7 @@ use App\Models\ContasModel;
             </div>
             <div class="form-group col-sm-2">
                 <label>Situação</label>
-                <select name="cbo_situacao" id="cbo_situacao" class="form-control" value="">
+                <select name="cbo_situacao" id="cbo_situacao" class="form-control escolher" value="">
                   <option value="T" <?php echo $situacao == "T" ? 'selected' : ''?>>Todos</option>
                   <option value="A" <?php echo $situacao == "A" ? 'selected' : ''?>>Abertas</option>
                   <option value="P" <?php echo $situacao == "P" ? 'selected' : ''?>>Pagas</option>
@@ -205,16 +198,20 @@ use App\Models\ContasModel;
 </body>
 <script type="text/javascript" src="js/bootstrap.js"></script>
 <script type="text/javascript" src="js/jquery.js"></script>
-<script type="text/javascript" src="js/bootstrap.minjs"></script>
+<script type="text/javascript" src="js/bootstrap.min.js"></script>
+<!-- <script src="js/chosen.jquery.js" type="text/javascript"></script> -->
+<script type="text/javascript" src="js/chosen.jquery.js"></script>
 
-<!-- <script type="text/javascript">
+<script type="text/javascript">
   $(document).ready( function ()
   {
-    $("#idCliente").on('change', function() {
-      var option = $(this).find('option:selected').text();
-      $('#lblContato').html("Contato: "+option);
-      });
+    $('.escolher').chosen(); 
+
+    // $("#idCliente").on('change', function() {
+    //   var option = $(this).find('option:selected').text();
+    //   $('#lblContato').html("Contato: "+option);
+    //   });
+
     });
-</script> -->
-</html>
+</script>
 </html>

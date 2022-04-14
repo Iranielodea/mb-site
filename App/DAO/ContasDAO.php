@@ -19,7 +19,7 @@ class ContasDAO extends Crud
         // $tipo 'R = Recber P = Pagar'
 
         if ($filtro->tipo == "R")
-            $recPagar = "1,2";
+            $recPagar = "2";
         else
             $recPagar = "3";
 
@@ -55,14 +55,14 @@ class ContasDAO extends Crud
             $sql = $sql . " AND data_emissao <= '{$filtro->dataPagamentoFinal}'";
         }
 
-        if ($filtro->pessoaId != null)
+        if ($filtro->pessoaId != 0)
         {
             if ($filtro->tipo == "R")
                 $sql = $sql . " AND cod_cliente = {$filtro->pessoaId}";
             else
                 $sql = $sql . " AND cod_for = {$filtro->pessoaId}";
         }
-        $sql = $sql . " AND tipo_conta IN ({$recPagar})"; 
+        $sql = $sql . " AND tipo_conta = {$recPagar}"; 
         
         if ($filtro->situacao != "T")
         {
